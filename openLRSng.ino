@@ -45,7 +45,7 @@
 //####### COMPILATION TARGET #######
 // Enable to compile transmitter code, default is RX
 //#define COMPILE_TX 0 // compile RX code
-//#define COMPILE_TX 1 // compile TX code
+#define COMPILE_TX 1 // compile TX code
 
 //####### BOARD TYPE #######
 // Enable only one of the lines below
@@ -59,6 +59,7 @@
 //#define BOARD_TYPE 7 // PowerTowerRx
 //#define BOARD_TYPE 8 // openLRSng microRx
 //#define BOARD_TYPE 9 // BroversityRX
+#define BOARD_TYPE 10 // Arduino Pro Micro (Atmega32u4)
 
 //### Module type selection (default = 433, only needed for modified HW)
 //#define RFMTYPE 868
@@ -72,7 +73,7 @@
 //#define TEST_NO_ACK_BY_CH1 // disable sending of acks from RX by channel 1
 //#define TEST_HALT_RX_BY_CH2 // freeze RX
 //#define TEST_HALT_TX_BY_CH3 // freeze TX
-//#define SLAVE_STATISTICS // output master/slave stats on RX serial
+#define SLAVE_STATISTICS // output master/slave stats on RX serial
 //#define DEBUG_DUMP_PPM // dump PPM data on serial (both TX/RX)
 
 //####################

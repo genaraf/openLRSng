@@ -835,7 +835,7 @@ void setupRfmInterrupt()
 
 #endif
 
-#if (BOARD_TYPE == 6) // DTF UHF DeluxeTX
+#if (BOARD_TYPE == 6) || (BOARD_TYPE == 10)// DTF UHF DeluxeTX Leonardo (6) Or Arduino Pro Micro use 
 #if (__AVR_ATmega32U4__ != 1)
 #error Wrong board selected, select Arduino Leonardo
 #endif
@@ -895,11 +895,21 @@ void buzzerOn(uint16_t freq)
 #define Green_LED_OFF  PORTC &= ~(1<<PORTC6);
 
 //## RFM22B Pinouts for Public Edition (M2)
-#define  nIRQ_1 (PINB & (1<<PINB7))==(1<<PINB7) //PB7
-#define  nIRQ_0 (PINB & (1<<PINB7))==0x00 //PB7
+#if (BOARD_TYPE == 10)
+  #define nIRQ_1 (PINB & (1<<PINB4))==(1<<PINB4) //PB4
+  #define nIRQ_0 (PINB & (1<<PINB4))==0x00 //PB4
+#else
+  #define  nIRQ_1 (PINB & (1<<PINB7))==(1<<PINB7) //PB7
+  #define  nIRQ_0 (PINB & (1<<PINB7))==0x00 //PB7
+#endif
 
-#define  nSEL_on PORTD |= (1<<PORTD6) //PD6
-#define  nSEL_off PORTD &= ~(1<<PORTD6) //PD6
+#if (BOARD_TYPE == 10)
+  #define nSEL_on PORTE |= (1<<PORTE6) //PE6
+  #define nSEL_off PORTE &= ~(1<<PORTE6) //PE6
+#else
+  #define  nSEL_on PORTD |= (1<<PORTD6) //PD6
+  #define  nSEL_off PORTD &= ~(1<<PORTD6) //PD6
+#endif
 
 #define  SCK_on  PORTB |= (1<<PORTB1)  //PB1
 #define  SCK_off PORTB &= ~(1<<PORTB1) //PB1
@@ -914,9 +924,13 @@ void buzzerOn(uint16_t freq)
 //#define SDO_pin x //PB3
 //#define SDI_pin x //PB2
 //#define SCLK_pin x //PB1
-#define IRQ_pin 11 //PB7
-#define nSel_pin 12
-
+#if (BOARD_TYPE == 10)
+  #define IRQ_pin 8 
+  #define nSel_pin 7
+#else
+  #define IRQ_pin 11 //PB7
+  #define nSel_pin 12
+#endif
 
 void setupSPI()
 {
@@ -929,7 +943,11 @@ void setupSPI()
 
 void setupRfmInterrupt()
 {
-  PCMSK0 |= (1<<PCINT7); //enable pin change interrupt
+  #if (BOARD_TYPE == 10)
+    PCMSK0 |= (1<<PCINT4); //enable pin change interrupt
+  #else
+    PCMSK0 |= (1<<PCINT7); //enable pin change interrupt
+  #endif
   PCICR |= (1<<PCIE0);
 }
 
